@@ -11,10 +11,6 @@ const bookingSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    ticketToken: {
-        type: String,
-        unique: true
-    },
     ticketStatus: {
         type: Boolean,
         default: true
