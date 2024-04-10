@@ -31,7 +31,7 @@ const bookTrip = async (req, res)=> {
             const errors = Object.values(error.errors).map(error => error.message);
             return res.status(400).json({ message: errors.join(', ') });
         } else {
-            console.log(error)
+            console.log(error.errmsg)
             // Other types of errors
             return res.status(500).json({
                 message:"something went wrong!",

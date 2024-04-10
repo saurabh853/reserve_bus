@@ -61,7 +61,9 @@ const getTrip = async (req, res) => {
 const filterByDate = async (req, res) => {
     try {
         const { startDate, endDate } = req.query;
-
+        if(!startDate || !endDate){
+            throw new Error('Please enter start date and end date!'); 
+        }
         /*Query the trips collection to find all trip details associated with the specified date*/
         const trips = await tripModel.find({
             date: {
@@ -76,10 +78,65 @@ const filterByDate = async (req, res) => {
             data: trips
         });
     } catch (error) {
-        console.error("Error retrieving trip details:", error);
+        console.error( error.message);
         return res.status(500).json({
-            message: "Internal Server Error"
+            message: error.message
         });
     }
 }
-module.exports = { addTrip, getTrip,filterByDate }
+
+const filterTrips = async (req,res)=>{
+    try {
+        // Parse user-specified parameters from the request
+        const { from, to, date, arrival, departure, startRating, endRating, operators } = req.query;
+
+        // Construct query object based on user-specified parameters
+        const query = {};
+        if (from){
+            query.from = from;
+        } 
+        if (to){
+            query.to = to;
+        } 
+        if (date){
+            query.date = date;
+        } 
+        if (arrival){
+            query.arrival = arrival;
+        } 
+        if (departure){
+            query.departure = departure;
+        } 
+        if (startRating){
+            query.startRating = { $gte: startRating };
+        } 
+        if (endRating){
+            query.endRating = { $lte: endRating };
+        } 
+        if (operators){
+            query.operators = { $in: operators };
+        } 
+
+        // Query the database for trip details matching the specified parameters
+        const trips = await tripModel.find(query);
+        
+        // Return trip details as response
+        if(trips.length===0){
+            res.status(200).json({
+                message: "No trip found",
+                data: trips
+            });
+            
+        }
+        res.status(200).json({
+            message: "Trip details retrieved successfully",
+            data: trips
+        });
+    } catch (error) {
+        // Handle errors
+        console.error('Error fetching trips:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+
+}
+module.exports = { addTrip, getTrip,filterByDate,filterTrips }

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
 // Define schema
 const bookingSchema = new mongoose.Schema({
@@ -10,6 +11,10 @@ const bookingSchema = new mongoose.Schema({
     user_name: {
         type: String,
         required: true
+    },
+    ticketToken: {
+        type: String,
+        unique: true
     },
     ticketStatus: {
         type: Boolean,
@@ -59,6 +64,14 @@ const bookingSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
+});
+
+bookingSchema.pre('save', function(next) {
+    // Generate a unique ticket token using uuid
+    if (!this.ticketToken) {
+        this.ticketToken = uuidv4();
+    }
+    next();
 });
 
 // Create model
