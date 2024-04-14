@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Define schema
 const tripsSchema = new mongoose.Schema({
   date: {
     type: Date,
@@ -56,7 +55,7 @@ const tripsSchema = new mongoose.Schema({
   }
 });
 
-// Create model
+
 const trips = mongoose.model('trips', tripsSchema);
 
 module.exports = trips;

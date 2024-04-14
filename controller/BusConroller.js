@@ -1,5 +1,5 @@
 const tripModel = require("../schema/tripSchema.js");
-const bookTripModel = require("../schema/bookingSchema");
+const cityModel = require("../schema/citySchema");
 
 const addTrip = async (req, res) => {
     try {
@@ -139,4 +139,24 @@ const filterTrips = async (req,res)=>{
     }
 
 }
-module.exports = { addTrip, getTrip,filterByDate,filterTrips }
+
+const getAllCities = async (req, res) => {
+    try {
+        /*Fetch all cities Data*/
+        const data = await cityModel.find();
+
+        /*Send response of successful fetching all cities*/
+        return res.status(200).json({
+            message:"Cities fetched successfully",
+            status:200,
+            data:data
+        })
+    } catch (error) {
+        /*Send response if fetching cities is not successful*/
+        return res.status(500).json({
+            message:"Something went wrong!",
+        })
+    }
+}
+
+module.exports = { addTrip, getTrip,filterByDate,filterTrips,getAllCities }
