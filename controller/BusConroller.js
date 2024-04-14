@@ -143,15 +143,10 @@ const filterTrips = async (req,res)=>{
 const getAllCities = async (req, res) => {
     try {
         /*Fetch all cities Data*/
-        const data = await cityModel.find();
-
-        /*Send response of successful fetching all cities*/
-        return res.status(200).json({
-            message:"Cities fetched successfully",
-            status:200,
-            data:data
-        })
+        const data = await  cityModel.find({});
+       
     } catch (error) {
+        console.log(error)
         /*Send response if fetching cities is not successful*/
         return res.status(500).json({
             message:"Something went wrong!",
