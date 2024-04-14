@@ -12,6 +12,6 @@ const state_district = new mongoose.Schema({
   }
 });
 
-const City = mongoose.model('state_district', state_district);
+const City = mongoose.model('state_district', state_district, 'state_district');
 
 module.exports = City;
