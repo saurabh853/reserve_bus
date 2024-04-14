@@ -143,7 +143,7 @@ const filterTrips = async (req,res)=>{
 const getAllCities = async (req, res) => {
     try {
         /*Fetch all cities Data*/
-        const cities = await  cityModel.find({});
+        const cities = await  cityModel.find({}).sort({state: 1});
         res.status(200).json({
             message: "Cities retrieved successfully",
             data: cities
